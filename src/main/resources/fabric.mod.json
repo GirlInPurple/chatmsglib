@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "chatmsglib",
+  "version": "${version}",
+  "name": "ChatMsgLib",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/GirlInPurple/ChatMsgLib"
+  },
+  "license": "MIT",
+  "icon": "assets/chatmsglib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "xyz.blurple.chatmsglib.CMLInit"
+    ]
+  },
+  "mixins": [
+    "chatmsglib.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

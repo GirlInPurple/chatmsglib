@@ -1,28 +1,25 @@
 package xyz.blurple.chatmsglib.list;
 
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-import static xyz.blurple.chatmsglib.CMLInit.*;
+import static xyz.blurple.chatmsglib.CMLInit.LOGGER;
 
 public abstract class ChatList {
 
-    public List<Text> components = new ArrayList<>();
-    public String pre;
-    public String suf;
-    public Formatting form;
+    public String pre = "";
+    public String suf = "";
+    public Formatting form = Formatting.WHITE;
 
     public ChatList prefix(String prefix) {
         if (pre == null) {
             pre = prefix;
             return this;
         } else {
-            throw new IllegalArgumentException("Cannot set \"prefix\" value more than once.");
+            LOGGER.error("Cannot set \"prefix\" value more than once.");
+            return this;
         }
     }
 
@@ -31,8 +28,14 @@ public abstract class ChatList {
             suf = suffix;
             return this;
         } else {
-            throw new IllegalArgumentException("Cannot set \"suffix\" value more than once.");
+            LOGGER.error("Cannot set \"suffix\" value more than once.");
+            return this;
         }
+    }
+
+    public ChatList indent(int indent) {
+        LOGGER.error("Cannot use indent inside abstract ChatList. Extend the class and overwrite this method.");
+        return null;
     }
 
     public ChatList formatted(Formatting format) {
@@ -40,20 +43,12 @@ public abstract class ChatList {
             form = format;
             return this;
         } else {
-            throw new IllegalArgumentException("Cannot set \"format\" value more than once.");
+            LOGGER.error("Cannot set \"format\" value more than once.");
+            return this;
         }
     }
 
-    public ChatList formatted(Function<Integer, Formatting> formatter) {
-        MutableText lastComponent = (MutableText) components.get(components.size() - 1);
-        if (lastComponent != null) {
-            components.set(components.size() - 1, Text.literal(((Text) lastComponent).getContent().toString())
-                    .styled(style -> style.withFormatting(formatter.apply(Integer.parseInt(((Text) lastComponent).getContent().toString())))));
-        }
-        return this;
-    }
-
-    public List<Text> create() throws IllegalAccessException {
+    public List<Text> create(){
         LOGGER.error("Cannot use create inside abstract ChatList. Extend the class and overwrite this method.");
         return null;
     }

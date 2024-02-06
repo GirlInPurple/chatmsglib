@@ -5,7 +5,7 @@ import net.minecraft.text.Text;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class IntList extends ChatList{
+public class IntList extends ChatList {
     List<Integer> outputList;
 
     public IntList(List<Integer> outputList) {

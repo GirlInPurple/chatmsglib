@@ -21,9 +21,7 @@ public class ChatMessage {
 
     private List<Text> components = new ArrayList<>();
     private Text head;
-    private Formatting[] headForm;
     private Text foot;
-    private Formatting[] footForm;
 
     /**
      * A {@code literal} that is always printed at the top of the message. Can only be set once.
@@ -40,7 +38,6 @@ public class ChatMessage {
 
     public ChatMessage header(String text, ClickEvent clickEvent, Formatting... formattings) {
         head = Text.literal(text).formatted(formattings).styled(style -> style.withClickEvent(clickEvent));
-        headForm = formattings;
         return this;
     }
 
@@ -117,12 +114,13 @@ public class ChatMessage {
         e.sendMessage(foot);
     }
 
-    public void send(CommandContext<ServerCommandSource> c) throws CommandSyntaxException {
+    public int send(CommandContext<ServerCommandSource> c) throws CommandSyntaxException {
         c.getSource().getEntityOrThrow().sendMessage(head);
         for (Text t : components) {
             c.getSource().getEntityOrThrow().sendMessage(t);
         }
         c.getSource().getEntityOrThrow().sendMessage(foot);
+        return 1;
     }
 }
 

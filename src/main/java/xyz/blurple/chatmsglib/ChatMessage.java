@@ -24,7 +24,7 @@ public class ChatMessage {
     private Text foot;
 
     /**
-     * A {@code literal} that is always printed at the top of the message. Can only be set once.
+     * A {@code literal} that is always printed at the top of the message.
      * */
     public ChatMessage header(String text) {
         head = Text.literal(text);
@@ -42,7 +42,7 @@ public class ChatMessage {
     }
 
     /**
-     * A {@code literal} that is always printed at the bottom of the message. Can only be set once.
+     * A {@code literal} that is always printed at the bottom of the message.
      * */
     public ChatMessage footer(String text) {
         foot = Text.literal(text);
@@ -101,26 +101,28 @@ public class ChatMessage {
         return this;
     }
 
+
     public ChatMessage object(List<Text> text) {
         components.addAll(text);
         return this;
     }
 
+    public ChatMessage object(Text text) {
+        components.add(text);
+        return this;
+    }
+
     public void send(Entity e) {
-        e.sendMessage(head);
+        if (head != null) {e.sendMessage(head);}
         for (Text t : components) {
             e.sendMessage(t);
         }
-        e.sendMessage(foot);
+        if (foot != null) {e.sendMessage(foot);}
     }
 
     public int send(CommandContext<ServerCommandSource> c) throws CommandSyntaxException {
-        c.getSource().getEntityOrThrow().sendMessage(head);
-        for (Text t : components) {
-            c.getSource().getEntityOrThrow().sendMessage(t);
-        }
-        c.getSource().getEntityOrThrow().sendMessage(foot);
-        return 1;
+        send(c.getSource().getEntityOrThrow());
+        return 0;
     }
 }
 

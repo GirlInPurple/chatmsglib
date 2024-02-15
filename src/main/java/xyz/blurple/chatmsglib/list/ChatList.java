@@ -9,28 +9,18 @@ import static xyz.blurple.chatmsglib.CMLInit.LOGGER;
 
 public abstract class ChatList {
 
-    public String pre = "";
-    public String suf = "";
-    public Formatting form = Formatting.WHITE;
+    String pre;
+    String suf;
+    Formatting form = Formatting.WHITE;
 
     public ChatList prefix(String prefix) {
-        if (pre == null) {
-            pre = prefix;
-            return this;
-        } else {
-            LOGGER.error("Cannot set \"prefix\" value more than once.");
-            return this;
-        }
+        this.pre = prefix;
+        return this;
     }
 
     public ChatList suffix(String suffix) {
-        if (suf == null) {
-            suf = suffix;
-            return this;
-        } else {
-            LOGGER.error("Cannot set \"suffix\" value more than once.");
-            return this;
-        }
+        this.suf = suffix;
+        return this;
     }
 
     public ChatList indent(int indent) {
@@ -39,13 +29,8 @@ public abstract class ChatList {
     }
 
     public ChatList formatted(Formatting format) {
-        if (form == null) {
-            form = format;
-            return this;
-        } else {
-            LOGGER.error("Cannot set \"format\" value more than once.");
-            return this;
-        }
+        this.form = format;
+        return this;
     }
 
     public List<Text> create(){

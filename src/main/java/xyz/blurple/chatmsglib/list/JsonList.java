@@ -27,6 +27,7 @@ public class JsonList extends ChatList {
 
     @Override
     public List<Text> create() {
+        if (this.suf == null) {this.suf = "";}
         return parseJsonObject(outputJson, this.indent);
     }
 

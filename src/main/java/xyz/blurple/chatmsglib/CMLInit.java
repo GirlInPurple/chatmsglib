@@ -4,8 +4,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.ClickEvent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,19 +68,30 @@ public class CMLInit implements ModInitializer {
                             .prefix("- ")
                             .indent(1)
                             .create()
+            )
+            .object(
+                    new Singleton()
+                            .add(Text.literal("Singletons are used to display text in one line only"))
+                            .add(
+                                    Text.literal("Also, commands in-line as well")
+                                        .styled(style -> style.withClickEvent(
+                                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/help")
+                                        ))
+                            )
+                            .create()
             );
 
     @Override
     public void onInitialize() {
-        LOGGER.info("started");
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-            dispatcher.register(
-                CommandManager.literal("cml")
-                .executes(msg::send)
-            )
-        );
-
-        LOGGER.info("registered");
+            CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
+                dispatcher.register(
+                    CommandManager.literal("cml")
+                    .executes(msg::send)
+                )
+            );
+            LOGGER.info("command registered");
+        }
     }
 }
